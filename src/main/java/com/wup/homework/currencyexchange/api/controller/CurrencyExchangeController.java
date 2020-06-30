@@ -3,9 +3,10 @@ package com.wup.homework.currencyexchange.api.controller;
 import com.wup.homework.currencyexchange.api.converter.ExchangeRateCategoryConverter;
 import com.wup.homework.currencyexchange.api.request.ConvertCurrencyRequest;
 import com.wup.homework.currencyexchange.api.request.LatestCurrencyExchangeRateRequest;
-import com.wup.homework.currencyexchange.model.ConvertedCurrency;
+import com.wup.homework.currencyexchange.api.response.ConvertCurrencyResponse;
+import com.wup.homework.currencyexchange.api.response.ExchangeRateResponse;
 import com.wup.homework.currencyexchange.model.ExchangeRateCategory;
-import com.wup.homework.currencyexchange.model.ExchangeRates;
+import com.wup.homework.currencyexchange.util.DateUtil;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,25 +28,24 @@ public class CurrencyExchangeController {
      */
     @RequestMapping(value = "/latest", params = {"exchangeRate"}, method = GET)
     @ResponseBody
-    public ExchangeRates getExchangeRates(@RequestParam("exchangeRate") ExchangeRateCategory exchangeRate) {
-        return new ExchangeRates();
+    public ExchangeRateResponse getExchangeRates(@RequestParam("exchangeRate") ExchangeRateCategory exchangeRate) {
+        return new ExchangeRateResponse();
     }
 
     /**
      * @param request
      */
     @PostMapping("/latest")
-    public ExchangeRates getExchangeRatesInRequestedCurrency(@Valid @RequestBody LatestCurrencyExchangeRateRequest request) {
-        return new ExchangeRates();
+    public ExchangeRateResponse getExchangeRatesInRequestedCurrency(@Valid @RequestBody LatestCurrencyExchangeRateRequest request) {
+        return new ExchangeRateResponse();
     }
-
 
     /**
      * @param request
      */
     @PostMapping("/exchange")
-    public ConvertedCurrency convertCurrency(@Valid @RequestBody ConvertCurrencyRequest request) {
-        return new ConvertedCurrency(request.getBaseCurrency(), request.getBaseAmount(), request.getTargetCurrency(), 110f);
+    public ConvertCurrencyResponse convertCurrency(@Valid @RequestBody ConvertCurrencyRequest request) {
+        return new ConvertCurrencyResponse(DateUtil.getFormattedCurrentDateAsString(), request.getBaseCurrency(), request.getBaseAmount(), request.getTargetCurrency(), 110f);
     }
 
     @InitBinder

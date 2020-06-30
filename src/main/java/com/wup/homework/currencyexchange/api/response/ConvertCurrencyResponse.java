@@ -1,4 +1,4 @@
-package com.wup.homework.currencyexchange.model;
+package com.wup.homework.currencyexchange.api.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConvertedCurrency {
+public class ConvertCurrencyResponse {
+    private String currentDate;
     private String baseCurrency;
     private Float baseAmount;
     private String targetCurrency;
