@@ -1,6 +1,6 @@
 package com.wup.homework.currencyexchange.api.request;
 
-import com.wup.homework.currencyexchange.model.ExchangeRateCategory;
+import com.wup.homework.currencyexchange.api.model.ExchangeRateCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

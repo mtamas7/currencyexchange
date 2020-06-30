@@ -1,6 +1,6 @@
 package com.wup.homework.currencyexchange.api.response;
 
-import com.wup.homework.currencyexchange.model.Currency;
+import com.wup.homework.currencyexchange.api.model.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

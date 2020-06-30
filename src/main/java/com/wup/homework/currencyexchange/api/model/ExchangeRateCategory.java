@@ -1,4 +1,4 @@
-package com.wup.homework.currencyexchange.model;
+package com.wup.homework.currencyexchange.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

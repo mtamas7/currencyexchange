@@ -1,6 +1,6 @@
 package com.wup.homework.currencyexchange.api.converter;
 
-import com.wup.homework.currencyexchange.model.ExchangeRateCategory;
+import com.wup.homework.currencyexchange.api.model.ExchangeRateCategory;
 
 import java.beans.PropertyEditorSupport;
 
