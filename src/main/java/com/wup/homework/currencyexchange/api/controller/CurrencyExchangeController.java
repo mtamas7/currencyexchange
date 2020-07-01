@@ -7,7 +7,6 @@ import com.wup.homework.currencyexchange.api.request.LatestCurrencyExchangeRateR
 import com.wup.homework.currencyexchange.api.response.ConvertCurrencyResponse;
 import com.wup.homework.currencyexchange.api.response.ExchangeRateResponse;
 import com.wup.homework.currencyexchange.util.DateUtil;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -22,14 +21,13 @@ import javax.validation.Valid;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
-@Api(value = "CurrencyExchangeController", tags = {"Main controller of the application"})
 @RestController
 public class CurrencyExchangeController {
 
     /**
      *
      */
-    @ApiOperation(value = "List of exchange rates in the requested exchange category", response = ExchangeRateResponse.class, tags = "getExchangeRates")
+    @ApiOperation(value = "List of exchange rates in the requested exchange category", response = ExchangeRateResponse.class, tags = "Get the latest rates")
     @RequestMapping(value = "/latest", params = {"exchangeRate"}, method = GET)
     @ResponseBody
     public ExchangeRateResponse getExchangeRates(@RequestParam("exchangeRate") ExchangeRateCategory exchangeRate) {
@@ -39,6 +37,7 @@ public class CurrencyExchangeController {
     /**
      * @param request
      */
+    @ApiOperation(value = "List of exchange rates in the requested exchange category based on the requested currency", response = ExchangeRateResponse.class, tags = "Get the latest rates in the requested currency")
     @PostMapping("/latest")
     public ExchangeRateResponse getExchangeRatesInRequestedCurrency(@Valid @RequestBody LatestCurrencyExchangeRateRequest request) {
         return new ExchangeRateResponse();
@@ -47,6 +46,7 @@ public class CurrencyExchangeController {
     /**
      * @param request
      */
+    @ApiOperation(value = "Convert the requested amount of the base currency into the requested target currency", response = ConvertCurrencyResponse.class, tags = "Convert currency into the requested currency")
     @PostMapping("/exchange")
     public ConvertCurrencyResponse convertCurrency(@Valid @RequestBody ConvertCurrencyRequest request) {
         return new ConvertCurrencyResponse(DateUtil.getFormattedCurrentDateAsString(), request.getBaseCurrency(), request.getBaseAmount(), request.getTargetCurrency(), 110f);
