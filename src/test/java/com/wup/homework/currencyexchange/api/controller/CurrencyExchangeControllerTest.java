@@ -1,28 +1,63 @@
 package com.wup.homework.currencyexchange.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wup.homework.currencyexchange.api.model.ExchangeRateCategory;
 import com.wup.homework.currencyexchange.api.request.ConvertCurrencyRequest;
 import com.wup.homework.currencyexchange.api.request.LatestCurrencyExchangeRateRequest;
+import com.wup.homework.currencyexchange.api.response.ConvertCurrencyResponse;
+import com.wup.homework.currencyexchange.api.response.ExchangeRateResponse;
+import com.wup.homework.currencyexchange.api.service.ConvertCurrencyService;
+import com.wup.homework.currencyexchange.api.service.ExchangeRatesService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static com.wup.homework.currencyexchange.api.model.ExchangeRateCategory.CENTRAL;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = CurrencyExchangeController.class)
-@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@AutoConfigureMockMvc
 class CurrencyExchangeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Mock
+    private ExchangeRatesService exchangeRatesService;
+
+    @Mock
+    private ConvertCurrencyService convertCurrencyService;
+
+    @InjectMocks
+    private CurrencyExchangeController currencyExchangeController;
+
+    @BeforeEach
+    public void init() {
+        initMocks();
+        MockitoAnnotations.initMocks(this);
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(currencyExchangeController)
+                .build();
+    }
 
     @Test
     void shouldReturnClientErrorIfTheExchangeCategoryIsNotPresent() throws Exception {
@@ -76,7 +111,13 @@ class CurrencyExchangeControllerTest {
                 .andExpect(content().string(containsString("baseCurrency")));
     }
 
-    public static String asJsonString(final Object obj) {
+    private void initMocks() {
+        when(exchangeRatesService.getLatestExchangeRates(Mockito.any(ExchangeRateCategory.class))).thenReturn(new ExchangeRateResponse());
+        when(exchangeRatesService.getLatestExchangeRates(Mockito.any(ExchangeRateCategory.class), anyString())).thenReturn(new ExchangeRateResponse());
+        when(convertCurrencyService.convertCurrency(anyString(), anyFloat(), anyString())).thenReturn(new ConvertCurrencyResponse());
+    }
+
+    private static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
         } catch (Exception e) {
