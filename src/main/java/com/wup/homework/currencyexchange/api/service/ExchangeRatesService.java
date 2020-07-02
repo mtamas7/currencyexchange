@@ -9,7 +9,7 @@ public interface ExchangeRatesService {
     /**
      *
      */
-    ExchangeRateResponse getLatestExchangeRates(ExchangeRateCategory category) throws UnsupportedCurrencyException;
+    ExchangeRateResponse getLatestExchangeRates(ExchangeRateCategory category);
 
     /**
      *

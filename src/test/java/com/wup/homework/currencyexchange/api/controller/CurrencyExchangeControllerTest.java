@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static com.wup.homework.currencyexchange.api.model.ExchangeRateCategory.CENTRAL;
+import static com.wup.homework.currencyexchange.api.model.ExchangeRateCategory.SELLING;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.anyFloat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -49,6 +50,14 @@ class CurrencyExchangeControllerTest {
 
     @InjectMocks
     private CurrencyExchangeController currencyExchangeController;
+
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @BeforeEach
     public void init() {
@@ -104,7 +113,7 @@ class CurrencyExchangeControllerTest {
     public void shouldReturnConvertCurrencyResponseIfTheRequiredDataIsPresent() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/exchange")
-                .content(asJsonString(new ConvertCurrencyRequest("USD", 100f, "EUR")))
+                .content(asJsonString(new ConvertCurrencyRequest("USD", 100f, "EUR", SELLING)))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -114,15 +123,7 @@ class CurrencyExchangeControllerTest {
     private void initMocks() {
         when(exchangeRatesService.getLatestExchangeRates(Mockito.any(ExchangeRateCategory.class))).thenReturn(new ExchangeRateResponse());
         when(exchangeRatesService.getLatestExchangeRates(Mockito.any(ExchangeRateCategory.class), anyString())).thenReturn(new ExchangeRateResponse());
-        when(convertCurrencyService.convertCurrency(anyString(), anyFloat(), anyString())).thenReturn(new ConvertCurrencyResponse());
-    }
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        when(convertCurrencyService.convertCurrency(anyString(), anyFloat(), anyString(), Mockito.any(ExchangeRateCategory.class))).thenReturn(new ConvertCurrencyResponse());
     }
 
 }
