@@ -29,7 +29,7 @@ In the `application.properties` you have to set your own MySQL server details:
 
 ```spring.datasource.password={replaceWithPassword}```
 
-Fill the database with sample data, for example use the attached ```data.sql``` file
+Fill the database with your sample data or use the attached ```data.sql``` file
 
 ## Test the application
 
