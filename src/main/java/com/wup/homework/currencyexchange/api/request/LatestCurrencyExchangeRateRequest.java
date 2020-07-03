@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class LatestCurrencyExchangeRateRequest {
     @NotNull
-    private ExchangeRateCategory category;
+    private ExchangeRateCategory exchangeRateCategory;
 
     @NotBlank
     private String currency;
