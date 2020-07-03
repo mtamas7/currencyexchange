@@ -1,5 +1,6 @@
 package com.wup.homework.currencyexchange.api.request;
 
+import com.wup.homework.currencyexchange.api.model.ExchangeRateCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,6 @@ public class ConvertCurrencyRequest {
     private Float baseAmount;
     @NotBlank
     private String targetCurrency;
+    @NotNull
+    private ExchangeRateCategory category;
 }

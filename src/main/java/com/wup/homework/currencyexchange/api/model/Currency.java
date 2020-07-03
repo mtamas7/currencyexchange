@@ -10,8 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Currency {
-    private String name;
-    private Float centralRate;
-    private Float buyingRate;
-    private Float sellingRate;
+    private String currencyCode;
+    private String currencyName;
+    private Float rate;
 }

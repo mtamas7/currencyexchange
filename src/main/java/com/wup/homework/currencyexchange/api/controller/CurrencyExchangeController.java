@@ -32,7 +32,8 @@ public class CurrencyExchangeController {
     final ConvertCurrencyService convertCurrencyService;
 
     @Autowired
-    public CurrencyExchangeController(ConvertCurrencyService convertCurrencyService, ExchangeRatesService exchangeRatesService) {
+    public CurrencyExchangeController(ConvertCurrencyService convertCurrencyService,
+                                      ExchangeRatesService exchangeRatesService) {
         this.convertCurrencyService = convertCurrencyService;
         this.exchangeRatesService = exchangeRatesService;
     }
@@ -43,7 +44,8 @@ public class CurrencyExchangeController {
     @ApiOperation(value = "List of exchange rates in the requested exchange category", response = ExchangeRateResponse.class, tags = "Get the latest rates")
     @RequestMapping(value = "/latest", params = {"exchangeRate"}, method = GET)
     @ResponseBody
-    public ExchangeRateResponse getExchangeRates(@RequestParam("exchangeRate") ExchangeRateCategory exchangeRate) throws UnsupportedCurrencyException {
+    public ExchangeRateResponse getExchangeRates(@RequestParam("exchangeRate") ExchangeRateCategory exchangeRate)
+            throws UnsupportedCurrencyException {
         return exchangeRatesService.getLatestExchangeRates(exchangeRate);
     }
 
@@ -52,7 +54,8 @@ public class CurrencyExchangeController {
      */
     @ApiOperation(value = "List of exchange rates in the requested exchange category based on the requested currency", response = ExchangeRateResponse.class, tags = "Get the latest rates in the requested currency")
     @PostMapping("/latest")
-    public ExchangeRateResponse getExchangeRatesInRequestedCurrency(@Valid @RequestBody LatestCurrencyExchangeRateRequest request) throws UnsupportedCurrencyException {
+    public ExchangeRateResponse getExchangeRatesInRequestedCurrency(@Valid @RequestBody LatestCurrencyExchangeRateRequest request)
+            throws UnsupportedCurrencyException {
         return exchangeRatesService.getLatestExchangeRates(request.getCategory(), request.getCurrency());
     }
 
@@ -61,8 +64,12 @@ public class CurrencyExchangeController {
      */
     @ApiOperation(value = "Convert the requested amount of the base currency into the requested target currency", response = ConvertCurrencyResponse.class, tags = "Convert currency into the requested currency")
     @PostMapping("/exchange")
-    public ConvertCurrencyResponse convertCurrency(@Valid @RequestBody ConvertCurrencyRequest request) throws UnsupportedCurrencyException {
-        return convertCurrencyService.convertCurrency(request.getBaseCurrency(), request.getBaseAmount(), request.getTargetCurrency());
+    public ConvertCurrencyResponse convertCurrency(@Valid @RequestBody ConvertCurrencyRequest request)
+            throws UnsupportedCurrencyException {
+        return convertCurrencyService.convertCurrency(request.getBaseCurrency(),
+                request.getBaseAmount(),
+                request.getTargetCurrency(),
+                request.getCategory());
     }
 
     @InitBinder
