@@ -24,6 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Collections;
+
 import static com.wup.homework.currencyexchange.api.model.ExchangeRateCategory.CENTRAL;
 import static com.wup.homework.currencyexchange.api.model.ExchangeRateCategory.SELLING;
 import static org.hamcrest.Matchers.containsString;
@@ -121,9 +123,9 @@ class CurrencyExchangeControllerTest {
     }
 
     private void initMocks() {
-        when(exchangeRatesService.getLatestExchangeRates(Mockito.any(ExchangeRateCategory.class))).thenReturn(new ExchangeRateResponse());
-        when(exchangeRatesService.getLatestExchangeRates(Mockito.any(ExchangeRateCategory.class), anyString())).thenReturn(new ExchangeRateResponse());
-        when(convertCurrencyService.convertCurrency(anyString(), anyFloat(), anyString(), Mockito.any(ExchangeRateCategory.class))).thenReturn(new ConvertCurrencyResponse());
+        when(exchangeRatesService.getLatestExchangeRates(Mockito.any(ExchangeRateCategory.class))).thenReturn(new ExchangeRateResponse("", "", Collections.emptyList()));
+        when(exchangeRatesService.getLatestExchangeRates(Mockito.any(ExchangeRateCategory.class), anyString())).thenReturn(new ExchangeRateResponse("", "", Collections.emptyList()));
+        when(convertCurrencyService.convertCurrency(anyString(), anyFloat(), anyString(), Mockito.any(ExchangeRateCategory.class))).thenReturn(new ConvertCurrencyResponse("", "", 0f, "", 0f));
     }
 
 }

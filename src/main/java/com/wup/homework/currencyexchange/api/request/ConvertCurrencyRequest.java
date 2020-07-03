@@ -21,5 +21,5 @@ public class ConvertCurrencyRequest {
     @NotBlank
     private String targetCurrency;
     @NotNull
-    private ExchangeRateCategory category;
+    private ExchangeRateCategory exchangeRateCategory;
 }
